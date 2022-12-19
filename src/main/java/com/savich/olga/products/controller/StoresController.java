@@ -28,7 +28,7 @@ public class StoresController {
         return storeService.getStoreById(id);
     }
 
-    @PostMapping("/save")
+    @PostMapping("/ ")
     public Store saveStore(@RequestBody StoreDto storeDto) {
         return storeService.saveStore(storeDto);
     }
