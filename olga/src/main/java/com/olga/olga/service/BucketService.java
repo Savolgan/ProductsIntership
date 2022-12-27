@@ -1,5 +1,6 @@
 package com.olga.olga.service;
 
+import com.olga.olga.LogInFile;
 import com.olga.olga.dao.BucketDao;
 import com.olga.olga.dto.AddToBucketDto;
 import com.olga.olga.dto.BucketDto;
@@ -13,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -48,14 +51,16 @@ public class BucketService {
         return bucketDao.findById(id).orElseThrow(() ->
                 new ClassNotFoundException("Bucket not found, id is incorrect"));
     }
-
-    public Bucket addProductInBucket(@NotNull AddToBucketDto addToBucketDto) throws java.lang.ClassNotFoundException {
+    @Transactional
+    public Bucket addProductInBucket(@NotNull AddToBucketDto addToBucketDto) throws java.lang.ClassNotFoundException, IOException {
         Bucket bucket = getBucketById(addToBucketDto.getBucketId());
         List<Product> productList = bucket.getProductList();
         bucket.setProductList(productList);
         Product tempProduct = productService.getProductById(addToBucketDto.getProductId());
         productList.add(tempProduct);
         bucketDao.save(bucket);
+        String strForLog="The product "+tempProduct.getName()+" is added to the bucket "+bucket.getName()+"\n";
+        LogInFile.logInFile(strForLog);
         return bucket;
     }
 

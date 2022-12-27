@@ -1,2 +1,2 @@
-
-The product  Milk is added to table
+The product Product{id=8, name='Milk', price=3.05} is added to the bucket Bucket{id=1, name='1 Bucket', productList=[Product{id=8, name='Milk', price=3.05}, Product{id=8, name='Milk', price=3.05}]}
+The product Milk is added to the bucket Bucket2
